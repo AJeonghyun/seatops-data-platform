@@ -6,23 +6,29 @@
 
 ## 이번 목표
 
-기존 Airflow 중심 계획을 **클라우드 엔지니어 취업을 위한 2주 MVP 학습 계획**으로 조정합니다. 이벤트 생성, JSONL 원본, PostgreSQL Raw/Staging/Quarantine/Mart, 품질 검증, 멱등성·재처리라는 기존 주제는 유지합니다.
+기존 Airflow 중심 계획을 **SeatOps 로컬 완성 → AWS 배포·운영 학습의 두 페이즈**로 조정합니다. 기존 2주는 참고 일정이며, 1페이즈 완료 후 2페이즈 날짜를 정합니다. 이벤트 생성, JSONL 원본, PostgreSQL Raw/Staging/Quarantine/Mart, 품질 검증, 멱등성·재처리라는 기존 주제는 유지합니다.
 
 AWS EC2·S3·IAM·VPC·CloudWatch와 Terraform을 학습 범위에 넣고, Airflow 전체 DAG·RDS·Kafka·Spark·Kubernetes는 후속 단계로 미룹니다. 복잡한 웹 UI·예약 API·실제 결제는 이번 범위에 넣지 않습니다.
 
-## 목표 흐름 — 아직 미구현
+## 두 페이즈 — 아직 미구현
+
+| 구분 | Phase 1: SeatOps 만들기 | Phase 2: 배포하며 배우기 |
+|---|---|---|
+| 입력 | 로컬 JSONL | S3 원본 |
+| 핵심 작업 | 생성·적재·검증·집계·중복 방지·수정 재처리 | EC2 배포·IAM·VPC·Terraform·CloudWatch |
+| 실행·검증 | 로컬 PostgreSQL/Compose, pytest, 기본 CI, 실패·재시작 실험 | 검증한 이미지로 AWS 실행, 인프라 CI, AWS 복구 실험 |
+| 완료 결과 | AWS 없이 동작하고 본인이 설명할 수 있는 SeatOps 로컬 MVP | AWS에서도 동작·보안·로그·복구를 확인한 운영 환경 |
+
+**Phase 1 완료 전에는 AWS 구현을 시작하지 않습니다.** 로컬 Docker는 서비스 실행 환경을 맞추는 용도입니다. Phase 2에서는 핵심 처리 로직을 재사용하고 S3 연결과 배포·운영 설정을 추가합니다.
 
 ```text
-Python 이벤트 생성 → JSONL → S3
-                             ↓
-                     EC2 / Docker 배치
-                             ↓
-                       PostgreSQL Raw
-                        ├─ Staging → 일별 Mart
-                        └─ Quarantine → 수정·재처리
+Phase 1: Python 생성 → 로컬 JSONL → PostgreSQL Raw
+                                      ├─ Staging → Mart
+                                      └─ Quarantine → 수정·재처리
+         + 로컬 로그 / 테스트 / Compose / 기본 CI
 
-Terraform: VPC / EC2 / IAM / S3 / CloudWatch 구성
-GitHub Actions: 테스트 / 이미지 빌드 / Terraform 검증
+Phase 2: 위 서비스를 EC2에서 실행 + S3 원본 연결
+         + VPC / IAM / Terraform / CloudWatch / AWS 복구 검증
 ```
 
 ## 학습 방식
@@ -44,7 +50,7 @@ GitHub Actions: 테스트 / 이미지 빌드 / Terraform 검증
 |---|---|
 | `preview_test.py` | 학습자가 작성한 Python 이벤트 분류 진단 풀이. 프로젝트 생성기/품질 파이프라인은 아님 |
 | `README.md`, `01_mvp_scope.md` | 목적·범위·진행 원칙 |
-| `docs/MVP_2WEEK_PLAN.md` | 10영업일 목표 및 작은 과제 순서 |
+| `docs/MVP_2WEEK_PLAN.md` | 두 페이즈 목표·완료 조건 및 작은 과제 순서 |
 | `docs/AWS_ARCHITECTURE.md` | 목표 아키텍처·학습자가 결정할 설계 항목 |
 | `docs/MVP_ACCEPTANCE_CRITERIA.md` | 향후 구현과 학습 이해도를 확인할 기준 |
 | 파이프라인·Docker·Terraform·CI·AWS 배포 | 미구현 |
@@ -54,7 +60,7 @@ GitHub Actions: 테스트 / 이미지 빌드 / Terraform 검증
 ## 계획 문서
 
 - [현재 MVP 범위](01_mvp_scope.md)
-- [2주 학습·구현 계획](docs/MVP_2WEEK_PLAN.md)
+- [두 페이즈 학습·구현 계획](docs/MVP_2WEEK_PLAN.md)
 - [AWS 아키텍처 초안과 결정할 질문](docs/AWS_ARCHITECTURE.md)
 - [완료 조건과 검증 기준](docs/MVP_ACCEPTANCE_CRITERIA.md)
 

@@ -29,6 +29,10 @@ flowchart TB
     CI[GitHub Actions] -. 테스트·빌드·구성 검증 .-> Batch
 ```
 
+## 이 구성도를 사용하는 시점
+
+이 문서의 AWS 구성은 **Phase 2의 목표**다. 먼저 Phase 1에서 AWS 없이 로컬 JSONL→PostgreSQL→Mart와 오류 처리·재처리·실행 이력·테스트·기본 CI를 완성한다. Phase 1 완료 전에는 이 구성도의 인프라를 만들지 않는다. Phase 2에서는 기존 처리 코드를 재사용해 EC2 실행과 S3 입출력·CloudWatch 연결을 학습한다.
+
 ## 서비스별 학습 목적과 대안
 
 | 후보 | 필요한 이유 | 비교할 대안·주의점 |

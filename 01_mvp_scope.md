@@ -13,10 +13,17 @@
 | Python·SQL·JSONL·Raw/Staging/Quarantine/Mart | 유지 | 운영할 실제 작업과 데이터 흐름이 필요 |
 | 품질 검증·중복 방지·재처리·pytest | 유지 | 정상 실행 외 실패와 복구를 입증 |
 | Docker Compose·GitHub Actions | 유지 | 실행 환경과 변경 검증을 재현 |
-| Terraform·AWS 클라우드 배포 | 2주 MVP로 이동 | 클라우드 네트워크·권한·IaC를 직접 익힘 |
+| Terraform·AWS 클라우드 배포 | Phase 2로 이동 | 클라우드 네트워크·권한·IaC를 직접 익힘 |
 | Airflow 전체 DAG | 후속 단계 | 우선 배치 CLI 하나의 실행·복구부터 이해 |
 | PostgreSQL RDS | 후속 단계 | 초기에는 EC2 Compose로 비용·복잡도 축소 |
 | API·Outbox·Kafka·Spark·Kubernetes | 후속 검토 | 현재 한계가 확인될 때만 추가 |
+
+## 두 페이즈의 경계
+
+1. **SeatOps 자체 완성:** AWS 없이 로컬 파일→Raw→Staging/Quarantine→Mart를 구현한다. 중복 방지·수정 재처리·실행 이력·로컬 로그·테스트·Docker Compose·기본 CI까지 완료하고 본인이 설명한다.
+2. **완성한 SeatOps 배포:** 1페이즈를 통과한 후 EC2·S3·IAM·VPC·Terraform·CloudWatch를 배우며 같은 서비스를 배포한다. 인프라 CI와 AWS 환경 복구 검증을 추가한다.
+
+서비스 핵심 기능의 미완료분을 AWS 단계로 넘기지 않는다. 최초 2주 일정은 참고이며 1페이즈가 끝나야 2페이즈의 실제 날짜를 정한다. 현재 두 페이즈 모두 미완료다.
 
 ## 필수 목표 — 모두 향후 구현
 
